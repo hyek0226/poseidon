@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*":["./*"],
+    },
+    "jsx": "react", // jsx 해석방식을 react로 하는 설정
+    "target": "ESNext",
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true // 모듈 import 할때 간단히 바꿔주는 옵션
+  },
+  "include": ["src", ".eslintrc.js"], // 컴파일 시 포함할 파일
+  "exclude": ["node_modules", "**/*.(spec|test).ts"] // 컴파일 시 제외항목
+}
