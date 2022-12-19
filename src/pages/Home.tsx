@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Input from '@/src/components/Input';
+import axios from 'axios';
 
 const StyledHome = styled.main`
   grid-area: main;
@@ -21,10 +22,34 @@ const SearchWapper = styled.div`
 const ContentWrapper = styled.div`
   width: 100%;
   height: 1500px;
-  overflow-y: auto;
+  text-align: center;
 `;
 
+interface IPicture {
+  data: {
+    hits: [];
+  };
+}
+
+interface IPictureDetail {
+  id?: number;
+  largeImageURL?: string;
+  userImageURL?: string;
+}
+
 function Home() {
+  const [loading, setLoading] = useState(true);
+  const [picture, setPicture] = useState([]);
+  const getPictures = async () => {
+    const data: IPicture = await axios.get(
+      'https://pixabay.com/api?key=32182981-9dc14849a91793a2ccc664163',
+    );
+    setPicture(data.data.hits);
+    setLoading((prevLoading) => !prevLoading);
+  };
+  useEffect(() => {
+    getPictures();
+  }, []);
   return (
     <StyledHome>
       <SearchWapper>
@@ -32,7 +57,20 @@ function Home() {
           <Input label="search" width="300px" />
         </div>
       </SearchWapper>
-      <ContentWrapper></ContentWrapper>
+      <ContentWrapper>
+        {loading ? (
+          <h2>Loading...</h2>
+        ) : (
+          picture.map((item: IPictureDetail) => (
+            <img
+              key={item.id}
+              width="450px"
+              height="500px"
+              src={item.largeImageURL}
+            />
+          ))
+        )}
+      </ContentWrapper>
     </StyledHome>
   );
 }
