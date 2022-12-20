@@ -5,11 +5,16 @@ import useModal from '../hooks/useModal';
 
 const StyledHeader = styled.header`
   grid-area: header;
-  border: 1px solid teal;
   display: flex;
-  align-items: center;
-  padding: 0 30px;
   justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  border-bottom: 1px solid #dbdbdb;
+  padding: 0 30px;
+  background-color: #fff;
   .logo {
     width: 200px;
     font-size: 32px;
@@ -23,10 +28,26 @@ function Header() {
     <StyledHeader>
       <div className="logo">Poseidon</div>
       <div className="btnWrapper">
-        <Button content="Menu" />
-        <Button content="Sign in" onClick={onClickHandler} />
-        <Button content="Sign up" />
-        <Button content="Upload" />
+        <Button name="menu" content="메뉴" color="#565656" />
+        <Button
+          name="signin"
+          content="로그인"
+          color="#565656"
+          onClick={onClickHandler}
+        />
+        <Button
+          name="signup"
+          content="가입"
+          border="2px solid #4e73df"
+          borderRadius="20px"
+        />
+        <Button
+          name="upload"
+          content="업로드"
+          bgColor="#4e73df"
+          color="#fff"
+          borderRadius="20px"
+        />
       </div>
       <Modal>하이</Modal>
     </StyledHeader>

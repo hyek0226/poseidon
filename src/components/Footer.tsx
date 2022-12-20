@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const StyledFooter = styled.footer`
   grid-area: footer;
+  height: 60px;
   border: 1px solid teal;
   padding: 0 30px;
 `;
