@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Input from '@/src/components/Input';
 import axios from 'axios';
+import Input from '@/src/components/Input';
+import Modal from '@/src/components/Modal';
 
 const StyledHome = styled.main`
   grid-area: main;
@@ -23,38 +24,48 @@ const ContentWrapper = styled.div`
   height: 1500px;
   text-align: center;
   padding-top: 40px;
-  img {
+  .image-sm {
     width: 380px;
     height: 250px;
     margin: 10px;
   }
 `;
 
-interface IPicture {
+interface IPictures {
   data: {
     hits: [];
   };
 }
 
-interface IPictureDetail {
+interface IPicturesDetail {
   id?: number;
   largeImageURL?: string;
   userImageURL?: string;
 }
 
 function Home() {
-  const [loading, setLoading] = useState(true);
-  const [picture, setPicture] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [pictures, setPictures] = useState([]);
+  const [selectedPic, setSelectedPic] = useState<IPicturesDetail>({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const getPictures = async () => {
-    const data: IPicture = await axios.get(
+    const data: IPictures = await axios.get(
       'https://pixabay.com/api?key=32182981-9dc14849a91793a2ccc664163',
     );
-    setPicture(data.data.hits);
-    setLoading((prevLoading) => !prevLoading);
+    setPictures(data.data.hits);
+    setIsLoading((prevIsLoading) => !prevIsLoading);
   };
   useEffect(() => {
     getPictures();
   }, []);
+
+  const onClickHandler = (item: IPicturesDetail) => {
+    console.log(item);
+    setIsModalOpen((prev) => !prev);
+    setSelectedPic(item);
+  };
+
   return (
     <StyledHome>
       <SearchWapper>
@@ -63,13 +74,29 @@ function Home() {
         </div>
       </SearchWapper>
       <ContentWrapper>
-        {loading ? (
-          <h2>Loading...</h2>
+        {isLoading ? (
+          <h2>isLoading...</h2>
         ) : (
-          picture.map((item: IPictureDetail) => (
-            <img key={item.id} src={item.largeImageURL} />
+          pictures.map((item: IPicturesDetail) => (
+            <img
+              className="image-sm"
+              key={item.id}
+              src={item.largeImageURL}
+              onClick={() => onClickHandler(item)}
+            />
           ))
         )}
+        {isModalOpen ? (
+          <Modal
+            content={
+              <img
+                width="100%"
+                height="100%"
+                src={selectedPic.largeImageURL}
+              ></img>
+            }
+          />
+        ) : null}
       </ContentWrapper>
     </StyledHome>
   );

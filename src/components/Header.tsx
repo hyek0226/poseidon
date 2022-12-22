@@ -23,7 +23,7 @@ const StyledHeader = styled.header`
 `;
 
 function Header() {
-  const { Modal, onClickHandler } = useModal({});
+  const { Modal, onClickHandler } = useModal();
   return (
     <StyledHeader>
       <div className="logo">Poseidon</div>
@@ -49,7 +49,7 @@ function Header() {
           borderRadius="20px"
         />
       </div>
-      <Modal>하이</Modal>
+      <Modal />
     </StyledHeader>
   );
 }

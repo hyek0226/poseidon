@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Button from './Button';
 
 const StyledModalWrapper = styled.div`
-  /* display: none; */
+  display: none;
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 100;
+  z-index: 9999;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,8 +30,8 @@ const StyledModalWrapper = styled.div`
 `;
 
 const StyledModal = styled.div`
-  width: 450px;
-  height: 600px;
+  width: 1200px;
+  height: 800px;
   background-color: #fff;
   border-radius: 8px;
   animation: modal-show 0.3s;
@@ -72,28 +72,27 @@ const StyledModal = styled.div`
   }
 `;
 
-interface ModalProps {
-  children?: string;
+export interface ModalProps {
+  header?: string;
+  content?: any;
+  footer?: string;
 }
 
-function Modal({ children }: ModalProps) {
+function Modal({ header, content, footer }: ModalProps) {
   return (
     <StyledModalWrapper>
       <StyledModal>
         <section>
           <header>
-            <h2>Sign in</h2>
+            {header}
             <div>
               <Button content="&times;" />
             </div>
           </header>
-          <main>{children}</main>
-          <footer>
-            <Button content="Sign in"></Button>
-          </footer>
+          <main>{content}</main>
+          <footer>{footer}</footer>
         </section>
       </StyledModal>
-      {/* <StyledModal onClick={(e) => e.stopPropagation()}>{children}</StyledModal> */}
     </StyledModalWrapper>
   );
 }
