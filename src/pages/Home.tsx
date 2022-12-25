@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import axios from 'axios';
 import Input from '@/src/components/Input';
 import Modal from '@/src/components/Modal';
+import Button from '../components/Button';
+import { useDownloadFile } from '../hooks/useDownloadFile';
 
 const StyledHome = styled.main`
   grid-area: main;
@@ -29,6 +31,13 @@ const ContentWrapper = styled.div`
     height: 250px;
     margin: 10px;
   }
+`;
+
+const StyledBtnWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: right;
+  align-items: center;
 `;
 
 interface IPictures {
@@ -61,9 +70,13 @@ function Home() {
   }, []);
 
   const onClickHandler = (item: IPicturesDetail) => {
-    console.log(item);
     setIsModalOpen((prev) => !prev);
     setSelectedPic(item);
+  };
+
+  const downloadBtnHandler = () => {
+    useDownloadFile(selectedPic.largeImageURL);
+    console.log(selectedPic);
   };
 
   return (
@@ -88,6 +101,17 @@ function Home() {
         )}
         {isModalOpen ? (
           <Modal
+            header={
+              <StyledBtnWrapper>
+                <Button
+                  content="download"
+                  height="85%"
+                  bgColor="#4e73df"
+                  color="#fff"
+                  onClickHandler={downloadBtnHandler}
+                />
+              </StyledBtnWrapper>
+            }
             content={
               <img
                 width="100%"

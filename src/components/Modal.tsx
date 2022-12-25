@@ -73,7 +73,7 @@ const StyledModal = styled.div`
 `;
 
 export interface ModalProps {
-  header?: string;
+  header?: any;
   content?: any;
   footer?: string;
 }
@@ -83,12 +83,7 @@ function Modal({ header, content, footer }: ModalProps) {
     <StyledModalWrapper>
       <StyledModal>
         <section>
-          <header>
-            {header}
-            <div>
-              <Button content="&times;" />
-            </div>
-          </header>
+          <header>{header}</header>
           <main>{content}</main>
           <footer>{footer}</footer>
         </section>
